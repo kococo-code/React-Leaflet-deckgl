@@ -1,0 +1,91 @@
+#MapComponenet{
+    position : absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%; 
+    height : 100%;
+    background-color: #333;
+}
+#inputForm{
+    position: absolute;
+    top : 100px;
+    left : 75px;
+    display : flex;
+    flex-direction : column;
+    width :  430px;
+    min-height : 300px;
+    z-index: 2;
+    border-radius: 5px;
+    background :rgba(0,0,0,.5);
+}
+
+.inputBoxInfo{
+    position: relative;
+    width : 120px;
+    margin-top : 10px;
+    padding-left : 15px;
+    padding-right : 15px;
+}
+.inputBox{
+    position: relative;
+    display:flex;
+    margin-top : 15px;
+    height : 40px;
+    border : 0 solid transparent;
+    box-shadow : black;
+    color : white;
+}
+.inputPlace{
+    position: relative;
+    width : 250px;
+    height : 40px;
+    text-align: center;
+    font-size:15px;
+    border : 1px solid black;  
+    margin-left : 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    color : #333;
+}
+.inputPlace:hover{
+    background-color: rgba(255,255,255,.75);
+}
+.ClickButton{
+    position: relative;
+    top : 15px;
+    left : 320px;
+    width : 100px;
+    height : 50px;
+    font-size : 19px;
+    background-color: #6495ed;
+    color : white;
+    border: 1px solid transparent;
+    border-radius : 2px;
+    transition-duration : 0.3s;
+}
+.ClickButton:hover{
+    background-color : grey;
+    color : white;
+}   
+.RouteInformation{
+    position : absolute;
+    display: flex;
+    flex-direction: column;
+    top : 60px;
+    left : 250px;
+    width :800px;
+    height : 60px;
+    background-color: rgba(0,0,0,.5);
+    color : rgba(255,255,255,.75);
+    text-align: left;
+    padding-left : 7px;
+    padding-top : 5px;
+    transition-duration: 0.4s;
+    border-radius : 5px;
+    z-index: 2;
+    font-size : 14px;
+}
+.RouteInformation:hover{
+    background-color: rgba(0,0,0,.55);
+
+}

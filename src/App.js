@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import MapComponent from './component/map';
+import Leaflet from './component/leaflet/leaflet'
 function App() {
   return (
     <div className="App">

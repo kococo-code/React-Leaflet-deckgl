@@ -1,53 +1,180 @@
 import React from 'react';
-import L from 'leaflet';
-import Airport from './airportLocation.json';
+import '../css/MapComponent.css';
+import '../css/Toggle.css';
+import RouteInfo from './common/RouteInformation';
+import Deck from './deckgl/ArcLayer';
+import Airport from '../dataset/airportLocation.json';
+import Leaflet from './leaflet/leaflet';
+import BestPrice from './common/bestPrice';
 export default class MapComponent extends React.Component{
     constructor(props){
         super(props)
+        this.state ={
+            departure : '',
+            arrival : '',
+            visibleInputBox : true,
+            Airportlists : Object.keys(Airport),
+            toggleState : 'on',
+            inputBoxVisibility : true,
+            dataset : [
+                {
+                    'departure' : [0,0],
+                    'arrival' : [0,0],
+                    'name' : [0,0]
+                }
+            ],
+            isDataPassed : false,
+            centroid : [34.8419, 130.0315]
+        }
+        this.toggle.bind(this);
+        this.handleClick.bind(this);
     }
-    
-    componentDidMount() {
-        // create map
-        let src = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
-        let attribution =  '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-
-        let airports = Object.keys(Airport);
-        
-        let CJU = [Airport.CJU.latitude,Airport.CJU.longtitude];
-        let GMP = [Airport.GMP.latitude,Airport.GMP.longtitude];
-        let ICN = [Airport.ICN.latitude,Airport.ICN.longtitude];
-
-        let array = [CJU,ICN];
-        //let length =airports.length;
-        //for(let i = 0 ; i<length ; i++){
-        //   array.push([Airport[airports[i]].latitude,Airport[airports[i]].longtitude,Airport[airports[i]].ICAO])
-        // }
-        
-        console.log(array)
-        this.map = L.map('map', {
-          center: [34.8419, 130.0315],
-          zoom: 7,
-          layers: [
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-              attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }),
-          ]
-        });
-        
-        for(let i = 0 ; i < array.length ; i++){
-            L.marker([array[i][0],array[i][1]]).addTo(this.map);
+    toggle = () =>{
+        if(this.state.toggleState=='off'){
+            this.setState({
+                toggleState : 'on',
+                inputBoxVisibility : true,
+                
+            })   
+        }else{
+            this.setState({
+                toggleState : 'off',
+                inputBoxVisibility : false,
+            })
+        }
+    }
+    handleClick = (event) =>{
+        function AirportValidation(name){
+            let airports = Object.keys(Airport)
+            if(airports.indexOf(name) !=-1){
+                return true
+            }
+            else{
+                return false
+            }
         }
         
+        if(this.state.departure.length == 0 || this.state.arrival.length == 0) {
+            alert(`Empty Input`) // Check Empty Length
+        }
+        else{
+            let d_validation = AirportValidation(this.state.departure)
+            let a_validation = AirportValidation(this.state.arrival)
+            
+            //Check Validation Airport Code
+            if(d_validation == true && a_validation == true){
+                this.toggle();
+                let data = [{
+                    departure : [Airport[this.state.departure].latitude, Airport[this.state.departure].longtitude],
+                    arrival : [Airport[this.state.arrival].latitude, Airport[this.state.arrival].longtitude],
+                    name : [this.state.departure,this.state.arrival]
+                }] 
+                let flushArray = []
+                this.setState({
+                    isDataPassed : true,
+                    dataset : flushArray.concat(data)
+                })
+            }
+            else{
+                // Will Be Push as Toast // 
+                if(d_validation == true && a_validation == false){
+                    alert(`${this.state.arrival} is Wrong`)
+                }
+                else if(d_validation == false && a_validation == true){
+                    alert(`${this.state.departure} is Wrong`)
+                }
+                else{
+                    alert(`${this.state.departure} and ${this.state.arrival} is Wrong`)
+                }
+            }
+            
+        }
+        
+    }
+    handleOnChange = (event) =>{
+        this.setState({[event.target.name] : String(event.target.value).toUpperCase()});        
+    }
+    distance() {
+        if(this.state.isDataPassed == true){
+            let lat1 = this.state.dataset[0].departure[0]
+            let lat2 = this.state.dataset[0].arrival[0]
+            let lon1 = this.state.dataset[0].departure[1]
+            let lon2 = this.state.dataset[0].arrival[1]
+            let unit = 'K'
+            if ((lat1 == lat2) && (lon1 == lon2)) {
+                return 0;
+            }
+            else {
+                var radlat1 = Math.PI * lat1/180;
+                var radlat2 = Math.PI * lat2/180;
+                var theta = lon1-lon2;
+                var radtheta = Math.PI * theta/180;
+                var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                if (dist > 1) {
+                    dist = 1;
+                }
+                dist = Math.acos(dist);
+                dist = dist * 180/Math.PI;
+                dist = dist * 60 * 1.1515;
+                if (unit=="K") { dist = dist * 1.609344 }
+                if (unit=="N") { dist = dist * 0.8684 }
+                let centroid = [Math.ceil((lat1+lat2)/2),Math.ceil((lat1+lat2)/2)]
+                this.setState({
+                    centroid : centroid
+                })
+
+                return Math.ceil(dist);
+            }
+        }
     }
 
     render(){
-        let style ={
-            position : 'relative',
-            height : 1024,
-            width : 1920
+        let visibleStyle = {
+            visibility : 'visible',
+            opacity : 1,
+            transition: 'visibility 0s linear 310ms, opacity 310ms'
+
         }
+        let hiddenStyle ={
+            visibility : 'hidden',
+            opacity : 0,
+            transition: 'visibility 0s linear 310ms, opacity 310ms'
+
+        }        
         return(
-        <div id="map" style={style}></div>
+            <div id="MapComponenet">
+                <div className='visibleInputBox'></div>
+                <div className={`switch ${this.state.toggleState}`} onClick={this.toggle} />
+                <div id="inputForm" style={this.state.inputBoxVisibility ? visibleStyle : hiddenStyle}>
+                        <div className="inputBox">
+                            <div className="inputBoxInfo">Departure</div>
+                            <input className="inputPlace" type="text" placeholder="Departure" name="departure" onChange={this.handleOnChange} autoComplete="off"></input>
+                        </div>
+                        <div className="inputBox">
+                            <div className="inputBoxInfo">Arrival</div>
+                            <input className="inputPlace" type="text" placeholder="Arrival" name="arrival" onChange={this.handleOnChange} autoComplete="off"></input>
+                        </div>
+                        <div className="inputBox">
+                            <div className="inputBoxInfo">Departure Date</div>
+                            <input className="inputPlace" type="date" placeholder="Departure Date" autoComplete="off"></input>
+                        </div>
+                        <div className="inputBox">
+                            <div className="inputBoxInfo">Return Date</div>
+                            <input className="inputPlace" type="date" placeholder="Return Date" autoComplete="off"></input>
+                        </div>
+                        <button className="ClickButton" onClick={this.handleClick}>Search</button>
+                </div>
+                <div style={this.state.inputBoxVisibility ? hiddenStyle : visibleStyle}>
+                    <div className="RouteInformation" style={this.state.isDataPassed ? visibleStyle : hiddenStyle}>
+                        <RouteInfo isDataPassed={this.state.isDataPassed} data={this.state.dataset}></RouteInfo>
+                    </div>
+                </div>
+                <div>
+                    <BestPrice></BestPrice>
+                </div>
+
+                <Deck data={this.state.dataset[0]} isDataPassed={this.state.isDataPassed}></Deck>
+            </div>
         )
     }
 }
