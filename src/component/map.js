@@ -170,9 +170,9 @@ export default class MapComponent extends React.Component{
                     </div>
                 </div>
                 <div>
-                    <BestPrice></BestPrice>
+                    {this.state.isDataPassed ? <BestPrice departure={this.state.departure} arrival={this.state.arrival} isDataPassed={this.state.isDataPassed}></BestPrice> :
+                    <div></div>}
                 </div>
-
                 <Deck data={this.state.dataset[0]} isDataPassed={this.state.isDataPassed}></Deck>
             </div>
         )
