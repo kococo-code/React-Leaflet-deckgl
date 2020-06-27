@@ -1,12 +1,16 @@
 import React from 'react';
-import './App.css';
+import './style/css/App.css';
+import './style/css/MapComponent.css';
+import './style/css/Flights.css';
+import './style/css/Tickets.css';
+import './style/css/Toggle.css';
 import MapComponent from './component/map';
-import Leaflet from './component/leaflet/leaflet'
 function App() {
   return (
     <div className="App">
       <div>
         <MapComponent></MapComponent>
+
       </div>
     </div>
   );

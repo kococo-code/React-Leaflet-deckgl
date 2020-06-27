@@ -1,0 +1,85 @@
+.ticket{
+    display : flex;
+    flex-direction : column;
+    position: relative;
+    top : 10px;
+    left : 30px;
+    width : 550px;
+    border : 1px solid rgba(0,0,0,.4);
+    border-radius : 5px;
+    margin-bottom : 30px;
+    background-color: white;
+}
+.ticket:hover{
+    border : 1px solid rgba(0,0,0,.8);
+    background-color: rgba(255,255,255,.8);
+}
+.ticket:action{
+    background-color: royalblue;
+}
+
+.eachFlight{
+    margin-bottom : 15px;
+    min-height: 100px;
+    text-align : left;
+    color : var(--black);
+}
+.flightInfo{
+    font-family: 'Open Sans', sans-serif;
+    font-weight : 600;
+    font-style : italic;
+    padding : 10px 0px 10px 25px;
+    font-size : 1.5em;
+    color : var(--lightgrey);
+}
+.Airports{
+    display: flex;
+    flex-direction : row;
+    justify-content: center;
+    font-size : 3em;
+    font-weight : 600;
+    color : var(--darkblue);
+}
+.departure_airport{
+    position: relative;
+}
+.arrival_airport{
+    position: relative;
+    padding-left : 150px;
+}
+.date{
+    display : flex;
+    padding-top : 3px;
+    flex-direction: row;
+    justify-content: center;
+    font-size : 1.0rem;
+    font-weight : 500;
+    font-style : italic;
+    color : var(--lightgrey);
+}
+.arrival_date{
+    padding-left : 150px;
+}
+.time{
+    display : flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size : 1.24rem;
+    font-weight : 500;
+    color : var(--lightgrey);
+}
+.arrival_time{
+    padding-left : 150px;
+
+}
+.prices{    
+    position: relative;
+    font-size : 1.24rem;
+    font-weight: 600;
+    font-style : italic;
+    margin-top : 15px;
+    border-top : 1px dashed rgba(0,0,0,.4);
+
+    padding : 30px 15px 20px 30px;
+    color : var(--lightgrey);
+}

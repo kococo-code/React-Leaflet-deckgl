@@ -1,6 +1,5 @@
 import React from 'react';
 import L from 'leaflet';
-import Airport from '../../dataset/airportLocation.json';
 
 export default class Leaflet extends React.Component{
     constructor(props){
@@ -72,7 +71,7 @@ export default class Leaflet extends React.Component{
         this.initalizeMap();      
     }
     componentDidUpdate(){
-      if(this.props.isDataPassed == true){
+      if(this.props.isDataPassed === true){
           this.layerGroup.clearLayers();
           this.SetMarker(this.props.data[0].departure)
           this.SetMarker(this.props.data[0].arrival)

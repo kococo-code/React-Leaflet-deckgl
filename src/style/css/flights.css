@@ -1,0 +1,63 @@
+.FlightsInformation{
+    position: absolute;
+    overflow:scroll;
+    top:0px;
+    right : 0px;
+    height : 100%;
+    width : 620px; 
+    z-index: 2;
+    background-color : rgba(255,255,255,.2);
+}
+
+.FlightsInformation#Notfound{
+    position: relative;
+    top : 0px;
+    text-align : center;
+    padding-top : 50px;
+    font-size : 30px;
+    color : black;
+}
+.AirportInfo{   
+    height : 120px;
+    font-size : 1em;
+    color : white;  
+    background-color : rgba(0,0,0);
+    border-bottom-left-radius: 5px;
+    
+}
+.AirportAttr{
+    display : grid;
+    grid-template-rows : repeat(4, 20px 25px 50px 10px);
+    grid-template-columns: repeat(5, 50px 200px 100px 200px 50px);
+    text-align : center;
+}
+.Departure{
+    border-bottom : 1px solid white;
+    grid-row : 2;
+    grid-column : 2;
+}
+.DepartureAirport{
+    grid-row : 3;
+    grid-column: 2;
+    font-size : 3em;
+}
+.DepartureAirportName{
+    grid-row:4;
+    grid-column : 2;
+    font-size : .9em;
+}
+.Arrival{
+    border-bottom : 1px solid white;
+    grid-row : 2;
+    grid-column : 4;
+}
+.ArrivalAirport{
+    grid-row : 3;
+    grid-column: 4;
+    font-size : 3em;
+}
+.ArrivalAirportName{
+    grid-row :4 ;
+    grid-column : 4;
+    font-size : .7em;
+}
