@@ -4,6 +4,8 @@ import {StaticMap} from 'react-map-gl';
 import {ArcLayer} from '@deck.gl/layers'
 
 
+
+
 export default class Deck extends React.Component {
     constructor(props){
         super(props)
@@ -33,6 +35,7 @@ export default class Deck extends React.Component {
               getTargetPosition: d => d.targetPosition,
               getSourceColor: d => [124, 140, 0],
               getTargetColor: d => [255, 0, 0],
+              wrapLongitude: true
             })
         ];
         return layers
@@ -46,6 +49,7 @@ export default class Deck extends React.Component {
         <DeckGL
           initialViewState={this.state.ViewState}
           controller={true}
+          
           layers={this.__renderLayer()}>
           <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
         </DeckGL>

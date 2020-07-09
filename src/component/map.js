@@ -2,6 +2,7 @@ import React from 'react';
 import Deck from './deckgl/ArcLayer';
 import Airport from './airportLocation.json';
 import Leaflet from './leaflet/leaflet';
+import FlightInformation from './common/flightInformation';
 import Price from './common/Price_hook'
 export default class MapComponent extends React.Component{
     constructor(props){
@@ -36,6 +37,7 @@ export default class MapComponent extends React.Component{
         }
     }
     handleClick = (event) =>{
+        console.log(this.state.departure_date);
         function AirportValidation(name){
             let airports = Object.keys(Airport)
             if(airports.indexOf(name) !== -1){
@@ -93,7 +95,6 @@ export default class MapComponent extends React.Component{
         this.setState({
             data : flushData.concat(pushedData)
         })
-        console.log(this.state.data);
     }
 
     render(){
@@ -111,7 +112,7 @@ export default class MapComponent extends React.Component{
         return(
             <div id="MapComponenet">
                 <div className='visibleInputBox'></div>
-                <div className={`switch ${this.state.toggleState}`} onClick={this.toggle} />
+                <div className={`map_switch ${this.state.toggleState}`} onClick={this.toggle} />
                 <div id="inputForm" style={this.state.inputBoxVisibility ? visibleStyle : hiddenStyle}>
                         <div className="inputBox">
                             <div className="inputBoxInfo">Departure</div>
@@ -140,6 +141,7 @@ export default class MapComponent extends React.Component{
                         {this.state.inputBoxVisibility?<div></div> : <Price child_callback={this.SelectedData} departure={this.state.departure} arrival={this.state.arrival} departure_date={this.state.departure_date}></Price>}
                         </div> : <div></div>}
                      </div>
+                    <FlightInformation></FlightInformation>
                 </div>
                 <Deck isDataPassed={this.state.isDataPassed} data={this.state.data}></Deck>
             </div>

@@ -38,6 +38,9 @@ function EachFlight(props){
     function onclick(e){
         props.child_callback(flights);
     }
+    function onHover(e){
+        console.log(e.target.name);
+    }
     useEffect(()=>{
         ParsingFlights();
     },[])
@@ -51,7 +54,7 @@ function EachFlight(props){
                                 <span className="flight_number">{key.flight_number}</span>
                             </div>
                         <div className="Airports">
-                         <div className="departure_airport">{key.departure}</div>
+                         <div className="departure_airport" onMouseEnter={onHover} name={key.departure}>{key.departure}</div>
                          <div className="arrival_airport">{key.arrival}</div>
                          </div>
                          <div className="time">
@@ -84,10 +87,6 @@ function EachFlight(props){
                             </div>
                         <div className="Airports">
                          <div className="departure_airport">{key.departure}</div>
-                         <div className="Arrow">
-
-
-                         </div>
                          <div className="arrival_airport">{key.arrival}</div>
                          </div>
                          <div className="time">

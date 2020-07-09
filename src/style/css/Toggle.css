@@ -1,4 +1,4 @@
-.switch {
+.map_switch {
     position: absolute;
     top:60px;
     left:73px;
@@ -11,11 +11,11 @@
     transition: all 0.6s;
     z-index: 2;
   }
-  .switch:hover{
+  .map_switch:hover{
       background-color: rgba(0,0,0,.5);
   }
-  .switch.off,
-  .switch.on {
+  .map_switch.off,
+  .map_switch.on {
     border : 1px solid transparent;
     border-radius: 25px;
     padding: 5px;
@@ -23,22 +23,22 @@
 
   }
   
-  .switch.off:before,
-  .switch.off:after {
+  .map_switch.off:before,
+  .map_switch.off:after {
     -webkit-transition: 0.6s;
     transition: all 0.6s;
 
   }
-  .switch.off:hover{
+  .map_switch.off:hover{
     opacity: 1;
   }
-  .switch.on:before,
-  .switch.on:after {
+  .map_switch.on:before,
+  .map_switch.on:after {
     -webkit-transition: 0.6s;
     transition: all 0.6s;
   }
   
-  .switch.off:before
+  .map_switch.off:before
   {
     display: block;
     position: absolute;
@@ -53,11 +53,11 @@
     z-index: 2;
     opacity: 0.3;
   }
-  .switch.off:before:hover{
+  .map_switch.off:before:hover{
       opacity: 1;
   }
 
-  .switch.on:before{
+  .map_switch.on:before{
     display: block;
     position: absolute;
     content: "";
@@ -72,7 +72,7 @@
 
   }
   
-  .switch.off:after {
+  .map_switch.off:after {
     display: block;
     position: absolute;
     content: "";
@@ -87,7 +87,7 @@
 
   }
   
-  .switch.on:before {
+  .map_switch.on:before {
   
     -webkit-transform: translateX(38px);
     -ms-transform: translateX(38px);
@@ -95,7 +95,7 @@
     z-index: inherit;
   }
   
-  .switch.on:after {
+  .map_switch.on:after {
     position: absolute;
     content: "";
     -o-transform: rotate(90deg);
