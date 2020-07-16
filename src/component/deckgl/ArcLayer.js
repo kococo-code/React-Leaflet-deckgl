@@ -4,8 +4,6 @@ import {StaticMap} from 'react-map-gl';
 import {ArcLayer} from '@deck.gl/layers'
 
 
-ㅈㅂ
-
 export default class Deck extends React.Component {
     constructor(props){
         super(props)
