@@ -4,9 +4,11 @@ function FlightInformation(props){
 
     const [flights, setFlights] = useState(0)
 
-    return(<div className="FlightsStatus">
+    return(
+        <div className="FlightsStatus">
             <div className="FlightsStatusInner"></div>
-            </div>)
+        </div>
+        )
 
 
 }

@@ -5,6 +5,7 @@ import './style/css/Flights.css';
 import './style/css/Tickets.css';
 import './style/css/Toggle.css';
 import './style/css/FlightStatus.css'; 
+import './style/css/Search.css';
 import MapComponent from './component/map';
 function App() {
   return (

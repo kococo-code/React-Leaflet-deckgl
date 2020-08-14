@@ -1,5 +1,4 @@
-@media screen 
-and (max-device-width: 1600px){
+@media screen and (max-device-width: 1600px){
     .FlightsInformation{
         width : 420px; 
     }
@@ -13,8 +12,7 @@ and (max-device-width: 1600px){
         text-align : center;
     }
 }
-@media screen 
-and (min-device-width: 1600px){
+@media screen and (min-device-width: 1600px){
     .FlightsInformation{
         width : 620px; 
     }

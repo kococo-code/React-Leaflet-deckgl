@@ -4,6 +4,7 @@ import {StaticMap} from 'react-map-gl';
 import {ArcLayer} from '@deck.gl/layers'
 
 
+
 export default class Deck extends React.Component {
     constructor(props){
         super(props)
@@ -22,7 +23,6 @@ export default class Deck extends React.Component {
     __renderLayer(){
       if(this.props.isDataPassed == true){
         let data = this.props.data
-        console.log(data)
         const layers = [
           new ArcLayer({
               id: 'arc-layer',
