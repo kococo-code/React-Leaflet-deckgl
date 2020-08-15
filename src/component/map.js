@@ -1,7 +1,5 @@
 import React from 'react';
 import Deck from './deckgl/ArcLayer';
-import Airport from './airportLocation.json';
-import Leaflet from './leaflet/leaflet';
 import InputForm from './InputBox';
 import FlightInformation from './common/flightInformation';
 import Price from './common/Price_hook'
@@ -16,14 +14,14 @@ export default class MapComponent extends React.Component{
         if(this.state.toggleState ==='off'){
             this.setState({
                 toggleState : 'on',
-                inputBoxVisibility : true,
                 
             })   
+            document.getElementById('inputForm').setAttribute('class','hidden');
         }else{
             this.setState({
                 toggleState : 'off',
-                inputBoxVisibility : false,
             })
+            document.getElementById('inputForm').setAttribute('class','visible');
         }
     }
    

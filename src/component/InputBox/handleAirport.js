@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 
-function handleAirport(target,setAirport,destroySearchBox){
+async function handleAirport(target,setAirport,destroySearchBox){
     const targetNode = target.parentNode;
     function OnClick(e){
         const splitsTarget = e.target.className.split(' ');
@@ -15,7 +15,7 @@ function handleAirport(target,setAirport,destroySearchBox){
     }
     
     
-    Axios.get(`http://94rising.xyz/api/airport/getAirportName?target=${(target.value).toUpperCase()}`).then(
+    await Axios.get(`http://94rising.xyz/api/airport/getAirportName?target=${(target.value).toUpperCase()}`).then(
         response => {
             if(response.status === 200){
                 if(response.data.length >= 1){

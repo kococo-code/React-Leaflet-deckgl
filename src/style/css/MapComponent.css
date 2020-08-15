@@ -17,8 +17,15 @@
     z-index: 2;
     border-radius: 5px;
     background :#042759;
+    transition : opacity .4s;
 }
-
+#inputForm.visible{
+    opacity : 1;
+}
+#inputForm.hidden{
+    opacity : 0; 
+    
+}
 .inputBoxInfo{
     position: relative;
     font-size : 1rem;

@@ -4,35 +4,39 @@ import handleAirport from './InputBox/handleAirport';
 import validationDateTime from './InputBox/validationDateTime';
 import { set } from 'd3';
 export default function InputForm(props){
-    const validCheck = {
-        'departure_date' : false,
-        'departure_airport' : false,
-        'arrival_airport' : false
-    }
     const params  = {
-        'SearchMinimumLetter' : 3
+        'SearchMinimumLetter' : 3,
+        'AirportfilterCharset' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     }
     const [departureAirport,setDepartureAirport] = useState('');
     const [arrivalAirport,setarrivalAirport] = useState('');
-    const [departureDateTime , setDepartureDatetime] = useState();
-    const [arrivalDateTime , setArrivalDatetime] = useState();
+    const [departureDateTime , setDepartureDatetime] = useState('');
+    const [arrivalDateTime , setArrivalDatetime] = useState('');
 
     function handleOnChange(e){
         // Validation Airport Name
         const datetimeFilter = ['departure date','arrival date'];
         const airportFilter = ['departure','arrival'];
-        const targetName = e.target.name;
+        const targetName = e.target.name; // Component Type (Departure , Arrival , DepartureDatetime , ArrivalDateTime)
+        
+        // Airport Search Engine 
         if(airportFilter.indexOf(targetName) != -1){       
             function destroySearchBox(){
+                // Search Box Destroyer 
                 const element = document.getElementById('SearchBox');
                 if(element !== null){
                     const parentNode = element.parentNode;
                     parentNode.removeChild(element);
                 }
             }     
-            // Will be update for Search Airport
-
+            // 
             if(e.target.value.length >= params.SearchMinimumLetter){
+                /// Check ASCII
+                for(let i = 0 ; i < e.target.value.length ; i++){
+                    if(params.AirportfilterCharset.indexOf(e.target.value[i].toUpperCase()) === -1){
+                        return console.log('Invalid');
+                    }
+                }
                 destroySearchBox();
                 handleAirport(e.target,targetName === 'departure' ? setDepartureAirport : setarrivalAirport,destroySearchBox);
             } 
@@ -43,7 +47,9 @@ export default function InputForm(props){
         // Validation Date
         else if(datetimeFilter.indexOf(targetName) != -1){
             if(e.target.value.length === 10){
+                console.log(e.target.value);
                 if(validationDateTime(e.target) === true){
+                    
                     const setTime = ()=>{
                         targetName === 'departure_datetime' ? setDepartureDatetime(e.target.value) : setArrivalDatetime(e.target.value);
                     };
@@ -56,7 +62,16 @@ export default function InputForm(props){
         }
     }
     function handleClick(){
-        
+        console.log(departureAirport,arrivalAirport,departureDateTime,arrivalDateTime);
+        if(departureAirport !== '' && arrivalAirport !== ''){
+            if(departureDateTime !== ''){
+                if(arrivalAirport !== ''){
+                    console.log('Round Trip')
+                }
+            }else{
+                console.log('One Way')
+            }
+        }
     };
     return (
         <div id="inputForm" onChangeCapture={handleOnChange}>

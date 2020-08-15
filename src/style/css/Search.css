@@ -2,11 +2,13 @@
     position : absolute;
     top : 45px;
     left : 166px;
-    width : 400px;
-    height : 600px;
+    width : 420px;
+    min-height :100px;
+    max-height : 600px;
     color : black;
     z-index: 99;
-    overflow : scroll;
+    overflow-y : auto;
+    overflow-x : hidden;
     animation : fadeIn .4s forwards;
 }
 .SearchAirport{

@@ -1,0 +1,95 @@
+#Prices{
+    position : absolute;
+    top : 0px;
+    right : 0px;
+    height: 100%;
+    background : rgba(22,22,22,.5);
+    overflow-y : scroll;
+    animation: fadeInLeft .5s ease;
+}
+#Prices .flightTicket{
+    margin-top : 10px;
+    width : 100%;
+    border-bottom : 1px solid black;
+    background-color: #f4f5f6;
+}
+#Prices .flightTicket:hover{
+    background-color: white;
+}
+#Prices .Ticket{
+    display : grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 40px 100px auto;
+    width : 100%;
+    height : 200px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color : black;
+    font-size : 24px;
+    font-family: 'Roboto' ,sans-serif;
+    transition : background .4s;
+    cursor: pointer;
+}
+#Prices .Ticket.transfer{
+    border-bottom : 1px dashed black;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+#Prices .Ticket .DepartureContainer{
+    grid-row : 2/3;
+    grid-column:  1/2;
+    line-height: 32px;
+    margin : 20px 20px 0px 0px;
+    text-align: right;
+
+}
+#Prices .Ticket .Departure{
+    font-size : 32px;
+    color : #042759;
+    font-weight : 600;
+}
+#Prices .Ticket .ArrivalContainer{
+    grid-row : 2/3;
+    grid-column:  2/2;
+    margin : 20px 10px 0px 20px;
+    line-height: 32px;
+
+}
+#Prices .Ticket .Arrival{
+    font-size : 32px;
+    color : #042759;
+    font-weight : 600;
+}
+#Prices .Ticket .OperatorContainer{
+    grid-row : 1/3;
+    grid-column: 1/2;
+    margin : 20px 0px 0px 20px;
+    display: flex;
+    flex-direction: row;
+    font-style : italic;
+    font-size : 20px;
+    font-weight : 600;
+
+}
+#Prices .Ticket .OperatorContainer .Operator{
+    margin-right : 10px;
+}
+#Prices .Ticket .OperatorContainer .Flight_Number{
+    margin-left : 5px;
+}
+#Prices .Ticket .Price{
+    grid-row: 3;
+    grid-column: 1/2;
+    margin : 20px 0px 0px 20px;
+    font-size :20px;
+}
+@keyframes fadeInLeft{
+    from{
+        opacity :0;
+        transform: translateX(50px);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
