@@ -52,14 +52,7 @@ function Price(props){
     function displayTickets(){
         const PriceElement = document.getElementById('Prices');
         
-        function appendNode(tickets,mode='direct'){
-            const getDate = (targetDate) =>{
-                return targetDate.getFullYear() + '-' + (targetDate.getMonth()+1) + '-' + targetDate.getDate();
-            }
-            const getTime = (targetDate) =>{
-                return targetDate.getHours()  + ':' + targetDate.getMinutes() + ':' + targetDate.getSeconds();
-            }
-        
+        function appendNode(tickets){        
             const flightTicket =  document.createElement('div');
             flightTicket.setAttribute('class','flightTicket');
 
@@ -81,14 +74,15 @@ function Price(props){
                 Departure.setAttribute('class','Departure');
                 Departure.textContent = ticket.departure.airport;
                 
-                const DepartureDateObject = new Date(ticket.departure.date);
+                const TicketDepartureDate = ticket.departure.date.slice(0,10);
+                const TicketDepartureTime = ticket.departure.date.slice(11);
                 const Departure_Date = document.createElement('div');
                 Departure_Date.setAttribute('class','Departure_Date');
-                Departure_Date.textContent = getDate(DepartureDateObject);
+                Departure_Date.textContent = TicketDepartureDate;
 
                 const Departure_Time = document.createElement('div');
                 Departure_Time.setAttribute('class','Departure_Time');
-                Departure_Time.textContent = getTime(DepartureDateObject);
+                Departure_Time.textContent = TicketDepartureTime;
                 // Append Child To Container
                 DepartureContainer.appendChild(Departure);
                 DepartureContainer.appendChild(Departure_Date);
@@ -102,14 +96,15 @@ function Price(props){
                 Arrival.setAttribute('class','Arrival');
                 Arrival.textContent = ticket.arrival.airport;
                 
-                const ArrivalDateObject = new Date(ticket.arrival.date);
+                const TicketArrivalDate = ticket.arrival.date.slice(0,10);
+                const TicketArrivalTime = ticket.arrival.date.slice(11);
                 const Arrival_Date = document.createElement('div');
                 Arrival_Date.setAttribute('class','Arrival_Date');
-                Arrival_Date.textContent = getDate(ArrivalDateObject);
+                Arrival_Date.textContent = TicketArrivalDate;
 
                 const Arrival_Time = document.createElement('div');
                 Arrival_Time.setAttribute('class','Arrival_Time');
-                Arrival_Time.textContent = getTime(ArrivalDateObject);
+                Arrival_Time.textContent = TicketArrivalTime;
 
                 // Append Child To Container
                 ArrivalContainer.appendChild(Arrival);
