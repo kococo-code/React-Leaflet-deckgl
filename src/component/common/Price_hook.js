@@ -1,10 +1,10 @@
 import React ,{useState,useEffect} from 'react';
-import EachFlight from './flight_hook';
 import axios from 'axios';
-import test from './testDataset.json';
 function Price(props){
-    async function getData(departure,arrival,departure_date){
-        await axios.get(`http://www.94rising.xyz/api/price/getPrice?departure=${departure}&arrival=${arrival}&departure_date=${departure_date}`).then(
+    
+    // Ticket Price Request
+    async function getData(departure,arrival,departureDate){
+        await axios.get(`https://94rising.xyz/api/price/getPrice?departure=${departure}&arrival=${arrival}&departure_date=${departureDate}`).then(
             req=>{
                 if(req.data !== 'Not Found'){
                     setPrices(req.data);
@@ -19,11 +19,12 @@ function Price(props){
                 }
             )
     }
+    // Departure and Arrival Information 
     async function getAirportInformation(departure,arrival){
-        await axios.get(`http://www.94rising.xyz/api/airport/flightsairport?departure=${departure}&arrival=${arrival}`).then(
+        await axios.get(`https://www.94rising.xyz/api/airport/flightsairport?departure=${departure}&arrival=${arrival}`).then(
             req=>{
-                setDeparture(req.data.departure);
-                setArrival(req.data.arrival);
+                // setDeparture(req.data.departure);
+                // setArrival(req.data.arrival);
             }).catch(
                 error=>{
                     console.log(error)
@@ -31,11 +32,10 @@ function Price(props){
             )
     }
     const [prices , setPrices] = useState(0);
-    const [departure,setDeparture] = useState([]);
-    const [arrival,setArrival] = useState([]);
-    const [parsedFlights , setFlights] = useState();
-    let flights = new Map();
+   // const [departure,setDeparture] = useState([]);
+   // const [arrival,setArrival] = useState([]);
 
+    // Click Event for Tickets
     function onClick(e){
         let node = e.target;
         let relativeFlightIndex = -1;
@@ -46,16 +46,17 @@ function Price(props){
             }
             node = node.parentNode;          
         }
-        console.log(flights.get(parseInt(relativeFlightIndex)));
+        // Ticket Location Information
+        props.selectedData(prices[relativeFlightIndex]);
     }
     
+    // Ticket Information Document Writter 
     function displayTickets(){
         const PriceElement = document.getElementById('Prices');
         
         function appendNode(tickets){        
             const flightTicket =  document.createElement('div');
             flightTicket.setAttribute('class','flightTicket');
-
             tickets.forEach((ticket,value)=>{
                 const oneflightsTicket = document.createElement('div');
                 
@@ -72,17 +73,15 @@ function Price(props){
                 
                 const Departure = document.createElement('div');
                 Departure.setAttribute('class','Departure');
-                Departure.textContent = ticket.departure.airport;
+                Departure.textContent = ticket.departure;
                 
-                const TicketDepartureDate = ticket.departure.date.slice(0,10);
-                const TicketDepartureTime = ticket.departure.date.slice(11);
                 const Departure_Date = document.createElement('div');
                 Departure_Date.setAttribute('class','Departure_Date');
-                Departure_Date.textContent = TicketDepartureDate;
+                Departure_Date.textContent = ticket.departure_date;
 
                 const Departure_Time = document.createElement('div');
                 Departure_Time.setAttribute('class','Departure_Time');
-                Departure_Time.textContent = TicketDepartureTime;
+                Departure_Time.textContent = ticket.departure_time ;
                 // Append Child To Container
                 DepartureContainer.appendChild(Departure);
                 DepartureContainer.appendChild(Departure_Date);
@@ -94,17 +93,15 @@ function Price(props){
                 
                 const Arrival = document.createElement('div');
                 Arrival.setAttribute('class','Arrival');
-                Arrival.textContent = ticket.arrival.airport;
+                Arrival.textContent = ticket.arrival;
                 
-                const TicketArrivalDate = ticket.arrival.date.slice(0,10);
-                const TicketArrivalTime = ticket.arrival.date.slice(11);
                 const Arrival_Date = document.createElement('div');
                 Arrival_Date.setAttribute('class','Arrival_Date');
-                Arrival_Date.textContent = TicketArrivalDate;
+                Arrival_Date.textContent = ticket.arrival_date;
 
                 const Arrival_Time = document.createElement('div');
                 Arrival_Time.setAttribute('class','Arrival_Time');
-                Arrival_Time.textContent = TicketArrivalTime;
+                Arrival_Time.textContent = ticket.arrival_time;
 
                 // Append Child To Container
                 ArrivalContainer.appendChild(Arrival);
@@ -121,7 +118,7 @@ function Price(props){
 
                 const Flight_Number = document.createElement('div');
                 Flight_Number.setAttribute('class','Flight_Number');
-                Flight_Number.textContent = ticket.flightsnumber;
+                Flight_Number.textContent = ticket.flight_number;
 
                 //Append Child to Container
                 OperatorContainer.appendChild(Operator);
@@ -139,38 +136,37 @@ function Price(props){
                 oneflightsTicket.appendChild(ArrivalContainer);
                 oneflightsTicket.appendChild(OperatorContainer);
                 flightTicket.appendChild(oneflightsTicket);
-                const relativeFlightsid = ticket.relativeFlightsid;
-                flightTicket.setAttribute('id',`relativeflight_${relativeFlightsid}`);
+                const relativeFlights = ticket.relativeFlights;
+                flightTicket.setAttribute('id',`relativeflight_${relativeFlights}`);
 
             });
             // Append Container to Mother Node
             PriceElement.appendChild(flightTicket);
         }
-        flights.forEach((key)=>{       
-                appendNode(key);
+        let pricesKeys = Object.keys(prices);
+        pricesKeys.forEach((key)=>{       
+                appendNode(prices[key]);
         })
     }
 
     // ShouldComponentUpdate  
     useEffect(()=>{
-        const keys = Object.keys(test);
-        keys.forEach((key)=>{
-            const relativeFlightsid = test[key].relativeFlightsid;
-            let copyArr = [];
-            if(flights.get(relativeFlightsid) !== undefined){
-                copyArr = [...flights.get(relativeFlightsid),test[key]];
-            }
-            else{
-                copyArr = [test[key]];
-            }
-            flights.set(relativeFlightsid, copyArr);
-        });
-        displayTickets();
-        console.log(flights.get(1));
+        const departure = props.searchTicket.departure;
+        const arrival = props.searchTicket.arrival;
+        const departureDate = props.searchTicket.departureDate;
+        console.log(departure,arrival,departureDate);
+        // Control for empty Values 
+        if(departure !=='' && arrival !== '' && departureDate != ''){
+            getData(departure,arrival,departureDate);
+        }
     },[])
+
+    // After Prices Requests Detect Price State 
+    useEffect(()=>{
+        displayTickets();
+    },[prices])
     return(
-        <div id="Prices" onClick={(e) => {onClick(e,flights)}}>
-            
+        <div id="Prices" onClick={(e) => {onClick(e)}}>
         </div>
     )    
 }

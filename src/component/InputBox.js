@@ -2,7 +2,7 @@ import React ,{useState} from 'react';
 import Axios from 'axios';
 import handleAirport from './InputBox/handleAirport';
 import validationDateTime from './InputBox/validationDateTime';
-import { set } from 'd3';
+import { set } from 'lodash';
 export default function InputForm(props){
     const params  = {
         'SearchMinimumLetter' : 3,
@@ -32,11 +32,14 @@ export default function InputForm(props){
             // 
             if(e.target.value.length >= params.SearchMinimumLetter){
                 /// Check ASCII
+                let isinValid = false
                 for(let i = 0 ; i < e.target.value.length ; i++){
                     if(params.AirportfilterCharset.indexOf(e.target.value[i].toUpperCase()) === -1){
-                        return console.log('Invalid');
+                        return console.log('Invalid Type');
                     }
                 }
+                
+                
                 destroySearchBox();
                 handleAirport(e.target,targetName === 'departure' ? setDepartureAirport : setarrivalAirport,destroySearchBox);
             } 
@@ -47,11 +50,9 @@ export default function InputForm(props){
         // Validation Date
         else if(datetimeFilter.indexOf(targetName) != -1){
             if(e.target.value.length === 10){
-                console.log(e.target.value);
                 if(validationDateTime(e.target) === true){
-                    
                     const setTime = ()=>{
-                        targetName === 'departure_datetime' ? setDepartureDatetime(e.target.value) : setArrivalDatetime(e.target.value);
+                        targetName === 'departure date' ? setDepartureDatetime(e.target.value) : setArrivalDatetime(e.target.value);
                     };
                     setTime();
                 }
@@ -62,16 +63,17 @@ export default function InputForm(props){
         }
     }
     function handleClick(){
-        console.log(departureAirport,arrivalAirport,departureDateTime,arrivalDateTime);
         if(departureAirport !== '' && arrivalAirport !== ''){
             if(departureDateTime !== ''){
                 if(arrivalAirport !== ''){
-                    console.log('Round Trip')
+                    props.setCallback(departureAirport,arrivalAirport,departureDateTime,arrivalDateTime);
                 }
             }else{
-                console.log('One Way')
+                props.setCallback(departureAirport,arrivalAirport,departureDateTime,arrivalDateTime);
             }
         }
+        document.getElementById('Prices').setAttribute('class','hidden');
+
     };
     return (
         <div id="inputForm" onChangeCapture={handleOnChange}>
@@ -85,11 +87,11 @@ export default function InputForm(props){
             </div>
             <div className="inputBox">
                 <div className="inputBoxInfo">Departure Date</div>
-                <input className="inputPlace" type="date" placeholder={"2020-08-01"} name="departure date" autoComplete="off"></input>
+                <input id="departureDate" className="inputPlace" type="date" placeholder={"2020-08-01"} name="departure date" autoComplete="off"></input>
             </div>
             <div className="inputBox">
                 <div className="inputBoxInfo">Return Date</div>
-                <input className="inputPlace" type="date" placeholder="return date" autoComplete="off" disabled></input>
+                <input id="arrivalDate"className="inputPlace" type="date" placeholder="return date" autoComplete="off" disabled></input>
             </div>
             <button className="ClickButton" onClick={handleClick}>Search</button>
             
