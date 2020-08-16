@@ -4,7 +4,7 @@ import {StaticMap} from 'react-map-gl';
 import {ArcLayer} from '@deck.gl/layers'
 
 
-const MAPBOX_ACCESS_TOKEN;
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoia29jb2NvIiwiYSI6ImNrYmYzNmh6YjBycWMyd21ycjd5YTJ1NW4ifQ.HI9okp_hbvvoAEwBGnn0Fg';
 export default class Deck extends React.Component {
     constructor(props){
         super(props)

@@ -6,7 +6,9 @@
     background : rgba(22,22,22,.5);
     overflow-y : scroll;
     animation: fadeInLeft .5s ease;
+
 }
+
 #Prices .flightTicket{
     margin-top : 10px;
     width : 100%;
