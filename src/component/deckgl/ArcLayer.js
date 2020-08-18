@@ -4,7 +4,6 @@ import {StaticMap} from 'react-map-gl';
 import {ArcLayer} from '@deck.gl/layers'
 
 
-const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoia29jb2NvIiwiYSI6ImNrYmYzNmh6YjBycWMyd21ycjd5YTJ1NW4ifQ.HI9okp_hbvvoAEwBGnn0Fg';
 export default class Deck extends Component {
       constructor(props){
         super(props);
@@ -21,15 +20,16 @@ export default class Deck extends Component {
     
     __renderLayer(){
       const data = this.props.data;
-      console.log('Works',data);
       const layers = [
           new ArcLayer({
               id: 'arc-layer',
               data: data,
               pickable: true,
               getWidth: 3,
-              getSourcePosition: d => d.sourcePosition,
-              getTargetPosition: d => d.targetPosition,
+              updateTriggers : {
+                getSourcePosition: d => d.sourcePosition,
+                getTargetPosition: d => d.targetPosition
+              },
               getSourceColor: d => [124, 140, 0],
               getTargetColor: d => [255, 0, 0],
               wrapLongitude: true

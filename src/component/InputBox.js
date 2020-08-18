@@ -1,8 +1,9 @@
-import React ,{useState} from 'react';
+import React ,{useState, useCallback, useEffect} from 'react';
 import Axios from 'axios';
 import handleAirport from './InputBox/handleAirport';
+import requestSearchData from './InputBox/requestSearchData';
 import validationDateTime from './InputBox/validationDateTime';
-import { set } from 'lodash';
+import {debounce} from 'lodash';
 export default function InputForm(props){
     const params  = {
         'SearchMinimumLetter' : 3,
@@ -12,13 +13,16 @@ export default function InputForm(props){
     const [arrivalAirport,setarrivalAirport] = useState('');
     const [departureDateTime , setDepartureDatetime] = useState('');
     const [arrivalDateTime , setArrivalDatetime] = useState('');
+    const [currentEvent, setcurrentEvent] = useState();
 
-    function handleOnChange(e){
+    function handleOnChange(event){
+        event.persist();
         // Validation Airport Name
         const datetimeFilter = ['departure date','arrival date'];
         const airportFilter = ['departure','arrival'];
-        const targetName = e.target.name; // Component Type (Departure , Arrival , DepartureDatetime , ArrivalDateTime)
-        
+        // Component Type (Departure , Arrival , DepartureDatetime , ArrivalDateTime)
+        const targetName = event.target.name; 
+
         // Airport Search Engine 
         if(airportFilter.indexOf(targetName) != -1){       
             function destroySearchBox(){
@@ -30,18 +34,23 @@ export default function InputForm(props){
                 }
             }     
             // 
-            if(e.target.value.length >= params.SearchMinimumLetter){
-                /// Check ASCII
-                let isinValid = false
-                for(let i = 0 ; i < e.target.value.length ; i++){
-                    if(params.AirportfilterCharset.indexOf(e.target.value[i].toUpperCase()) === -1){
-                        return console.log('Invalid Type');
+            if(event.target.value.length >= params.SearchMinimumLetter){               
+                for(let i = 0 ; i < event.target.value.length ; i++){
+                    if(event.target.value[i] != String.fromCharCode(32)){
+                        if(params.AirportfilterCharset.indexOf(event.target.value[i].toUpperCase()) === -1){
+                            return console.log('Invalid Type');   
+                        }
                     }
                 }
-                
-                
                 destroySearchBox();
-                handleAirport(e.target,targetName === 'departure' ? setDepartureAirport : setarrivalAirport,destroySearchBox);
+                
+                const debouncedfn= debounce(()=>{
+                        let searchTarget = event.target;
+                        requestSearchData(searchTarget,targetName === 'departure' ? setDepartureAirport : setarrivalAirport,destroySearchBox);
+                },1000).bind();
+                
+                debouncedfn();
+                
             } 
             else{
                 destroySearchBox();
@@ -49,10 +58,10 @@ export default function InputForm(props){
         }
         // Validation Date
         else if(datetimeFilter.indexOf(targetName) != -1){
-            if(e.target.value.length === 10){
-                if(validationDateTime(e.target) === true){
+            if(event.target.value.length === 10){
+                if(validationDateTime(event.target) === true){
                     const setTime = ()=>{
-                        targetName === 'departure date' ? setDepartureDatetime(e.target.value) : setArrivalDatetime(e.target.value);
+                        targetName === 'departure date' ? setDepartureDatetime(event.target.value) : setArrivalDatetime(event.target.value);
                     };
                     setTime();
                 }
@@ -61,20 +70,25 @@ export default function InputForm(props){
             console.log("error");
             }
         }
+        return 0;
     }
     function handleClick(){
         if(departureAirport !== '' && arrivalAirport !== ''){
             if(departureDateTime !== ''){
-                if(arrivalAirport !== ''){
+                if(arrivalDateTime !== ''){
+                    props.setCallback(departureAirport,arrivalAirport,departureDateTime,arrivalDateTime);
+
+                }else{
                     props.setCallback(departureAirport,arrivalAirport,departureDateTime,arrivalDateTime);
                 }
             }else{
-                props.setCallback(departureAirport,arrivalAirport,departureDateTime,arrivalDateTime);
+                alert('Not Enough Input !');
             }
         }
-        document.getElementById('Prices').setAttribute('class','hidden');
-
     };
+   
+    
+
     return (
         <div id="inputForm" onChangeCapture={handleOnChange}>
             <div className="inputBox departure" >
@@ -87,7 +101,7 @@ export default function InputForm(props){
             </div>
             <div className="inputBox">
                 <div className="inputBoxInfo">Departure Date</div>
-                <input id="departureDate" className="inputPlace" type="date" placeholder={"2020-08-01"} name="departure date" autoComplete="off"></input>
+                <input id="departureDate" className="inputPlace" type="date" placeholder={"2020-08-20"} name="departure date" autoComplete="off"></input>
             </div>
             <div className="inputBox">
                 <div className="inputBoxInfo">Return Date</div>
