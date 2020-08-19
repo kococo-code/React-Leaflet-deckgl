@@ -32,6 +32,8 @@ export default function InputForm(props){
     const onChange = e => {
         setUserQuery(e.target.value);
         setTargetQuery(e.target.id);
+        // Escape for Debounce , SetDatetime function
+        handleDatetime(e.target.id,e.target.value);
      };
      
     useEffect(() => {
@@ -41,11 +43,24 @@ export default function InputForm(props){
         return delayedQuery.cancel;
      }, [userQuery, delayedQuery]);
 
-
+    function handleDatetime(targetName,targetValue){
+        const datetimeFilter = ['departureDate','arrivalDate'];
+        if(datetimeFilter.indexOf(targetName) != -1){
+            if(targetValue.length === 10){
+                const setTime = (dateTimeValue)=>{
+                    targetName === 'departureDate' ? setDepartureDatetime(dateTimeValue) : setArrivalDatetime(dateTimeValue);
+                };
+                if(validationDateTime(targetValue) === true){
+                    setTime(targetValue);
+                }else{
+                    document.getElementById(targetName).value = '';
+                    setTime('')
+                }
+        }}
+    }
 
     function handleOnChange2(){
         // Validation Airport Name
-        const datetimeFilter = ['departureDate','arrivalDate'];
         const airportFilter = ['departureInput','arrivalInput'];
         // Component Type (Departure , Arrival , DepartureDatetime , ArrivalDateTime)
         const targetName = targetQuery; 
@@ -71,32 +86,16 @@ export default function InputForm(props){
                     }
                 }
                 destroySearchBox();
-                requestSearchData(targetName,targetValue,targetName === 'departureInput' ? setDepartureAirport : setarrivalAirport,destroySearchBox);
-
-            
-                
+                requestSearchData(targetName,targetValue,targetName === 'departureInput' ? setDepartureAirport : setarrivalAirport,destroySearchBox); 
             } 
             else{
                 destroySearchBox();
             }
         }
         // Validation Date
-        else if(datetimeFilter.indexOf(targetName) != -1){
-            if(targetValue.length === 10){
-                const setTime = (dateTimeValue)=>{
-                    targetName === 'departureDate' ? setDepartureDatetime(dateTimeValue) : setArrivalDatetime(dateTimeValue);
-                };
-                if(validationDateTime(targetValue) === true){
-                    setTime(targetValue);
-                }else{
-                    document.getElementById(targetName).value = '';
-                    setTime('')
-                }
-        }
-        else{
-            console.log("error");
-            }
-        }
+        
+        else{}
+        
         return 0;
     }
     function handleClick(){
