@@ -17,6 +17,7 @@ export default class MapComponent extends React.Component{
             toggleState : 'on',
             searchTicket : new Flight(),
             selectedData : '',
+
             // Detect Search Variable Changed
             changed : false
         }
@@ -46,7 +47,6 @@ export default class MapComponent extends React.Component{
     }
     // Input Box Value Handler
     handleInputBoxValues = (departure,arrival,departureDate,arrivalDate) =>{
-        console.log(departure, arrival ,departureDate, arrivalDate);
         this.setState({
             'searchTicket' : {
                 'departure' : departure,

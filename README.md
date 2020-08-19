@@ -6,7 +6,7 @@ Deck.Gl is Datavisualization Tool [Deck.GL](https://deck.gl)
 
 [ArcLayerCode](src/component/deckgl/ArcLayer.js)
 <img src="image/testcase.png"/>
-[Demo](http://94rising.xyz/flights)
+[Demo](https://94rising.xyz/flights)
 # Dependency
 ```
 React, Deckgl
