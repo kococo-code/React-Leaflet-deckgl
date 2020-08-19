@@ -2,7 +2,6 @@ import React from 'react';
 import Deck from './deckgl/ArcLayer';
 import InputForm from './InputBox';
 import getAirportInformation from './Tickets/Airportlocation';
-
 import Price from './Tickets/Price_hook'
 
 function Flight(){
@@ -18,6 +17,7 @@ export default class MapComponent extends React.Component{
             toggleState : 'on',
             searchTicket : new Flight(),
             selectedData : '',
+            // Detect Search Variable Changed
             changed : false
         }
     }
@@ -46,6 +46,7 @@ export default class MapComponent extends React.Component{
     }
     // Input Box Value Handler
     handleInputBoxValues = (departure,arrival,departureDate,arrivalDate) =>{
+        console.log(departure, arrival ,departureDate, arrivalDate);
         this.setState({
             'searchTicket' : {
                 'departure' : departure,
@@ -68,6 +69,7 @@ export default class MapComponent extends React.Component{
             const keys = Object.keys(data);
             keys.forEach((key)=>{
                 const dataCallback = (data) =>{
+                    
                     const parsedData = {
                         'sourcePosition' : [data.departure[0].longitude,data.departure[0].latitude],
                         'targetPosition' : [data.arrival[0].longitude,data.arrival[0].latitude]
@@ -96,3 +98,4 @@ export default class MapComponent extends React.Component{
         )
     }
 }
+//                <Deck data={this.state.selectedData}></Deck>

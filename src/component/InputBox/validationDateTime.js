@@ -1,7 +1,4 @@
-import React from 'react';
-
-
-export default function validationDateTime(targetEvnet){
+export default function validationDateTime(targetValue){
     const parsingDate = (targetDate) =>{
         const parsedDate = {
             'year' : targetDate.getYear(),
@@ -10,7 +7,7 @@ export default function validationDateTime(targetEvnet){
         }
         return parsedDate;
     }
-    const target = new Date(targetEvnet.value);
+    const target = new Date(targetValue);
     const today = new Date();
     if(target - today < 0){
         const parsedTarget = parsingDate(target);

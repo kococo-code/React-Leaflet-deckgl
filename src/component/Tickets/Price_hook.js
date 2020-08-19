@@ -2,34 +2,39 @@ import React ,{useState,useEffect} from 'react';
 import displayTickets from './displayTickets';
 import axios from 'axios';
 function Price(props){
-    
+    const destroyer = (delayTime) => setTimeout(()=>{
+        document.getElementById("MapComponenet").removeChild(document.getElementById('loading'));
+    },delayTime);
     // Ticket Price Request
     async function getData(departure,arrival,departureDate){
+      
         //https://94rising.xyz/api/price/tickets?departure=${departure}&arrival=${arrival}&departure_date=${departureDate}
-        await axios.get(`https://94rising.xyz/api/price/tickets?departure=${departure}&arrival=${arrival}&departure_date=${departureDate}`).then(
+        await axios.get(`https://94rising.xyz/api/price/tickets?departure=${departure}&arrival=${arrival}&departure-date=${departureDate}`).then(
             req=>{
-                if(req.data !== 'Not Found'){
+                console.log(req.status);
+                if(req.status === 200){
                     setPrices(req.data);
-                    
                     // Store for Data
                     window.sessionStorage.setItem('tickets',JSON.stringify(req.data));
-                    
                     // Destory Loading Element
                     document.getElementById('loading').setAttribute('class','hidden');
-                    const destoryer = setTimeout(()=>{
-                        document.getElementById("MapComponenet").removeChild(document.getElementById('loading'));
-                    },1000);
-                    clearTimeout(destoryer);
-                }
-                else{
+                    const destroyloading = destroyer(1000);
+                    clearTimeout(destroyloading);
+                }else{
+                    console.log("Not Found")
                     document.getElementsByClassName('locate')[0].textContent = 'Not Found!';
-                    const destoryer = setTimeout(()=>{
-                        document.getElementById("MapComponenet").removeChild(document.getElementById('loading'));
-                    },2000);
-                    clearTimeout(destoryer);
-                }        
+                    const destroyloading = destroyer(2000);
+                    clearTimeout(destroyloading);
+                }
+          
                 
-            }).catch()
+            }).catch(
+                err=>{
+                    document.getElementsByClassName('waiting')[0].textContent = '';
+                    document.getElementsByClassName('locate')[0].textContent = 'Not Found!';
+                    const destroyloading = destroyer(2000);
+                    clearTimeout(destroyloading);
+                })
         
 
     }
@@ -60,10 +65,15 @@ function Price(props){
         const setloading = () => {
             const loading = document.createElement('div');
             loading.setAttribute('id','loading');
+
             const wording = document.createElement('div');
+            const wording2 = document.createElement('div');
             wording.setAttribute('class','locate');
             wording.textContent = `Fly! ${departure} to ${arrival}!`;
+            wording2.setAttribute('class','waiting');
+            wording2.textContent = 'Wait For Loading';
             loading.appendChild(wording);
+            loading.appendChild(wording2);
             document.getElementById('MapComponenet').appendChild(loading);
         }
 
@@ -85,8 +95,7 @@ function Price(props){
 
     // After Prices Requests Detect Price State 
     useEffect(()=>{
-        console.log(prices);
-        displayTickets(prices);
+            displayTickets(prices);
     },[prices])
     return(
         <div id="Prices" onClick={(e) => {onClick(e)}}>

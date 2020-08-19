@@ -2,7 +2,8 @@ function handleAirport(target,data,setAirport,destroySearchBox){
 
     // Target = Departure : Arrival
     // => Onclick 
-    const targetNode = target.parentNode;
+     
+    const targetNode = document.getElementById(target).parentNode;
     displaySearchBox(data);
     // Search Box Select Event
     function OnClick(e){

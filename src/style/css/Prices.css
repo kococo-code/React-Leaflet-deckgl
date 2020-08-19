@@ -20,8 +20,8 @@
 }
 #loading{
     position : absolute;
-    top : 200px;
-    left : 100px;
+    top : 100px;
+    left : 400px;
     width : 500px;
     height : 100px;
     background : rgba(22,22,22,.5);
@@ -35,7 +35,7 @@
 
 }
 #loading.hidden{
-    transition : all 1.5s;
+    transition : all 1s;
     transform : translateY(-50px);
     opacity : 0;
 }
@@ -43,8 +43,15 @@
     font-size : 32px;
     font-style : italic;
     color : white;
-    line-height: 100px;
+    line-height: 50px;
     opacity: 1;
+    transition : all .5s;
+}
+#loading .waiting{
+    font-size : 32px;
+    font-style : italic;
+    color : white;
+    line-height : 50px;
     transition : all .5s;
 }
 #Prices .SearchedAirports{
